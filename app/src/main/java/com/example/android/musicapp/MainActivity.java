@@ -1,50 +1,57 @@
 package com.example.android.musicapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Toolbar toolbar;
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-
-    private SongFragment songFragment;
-    private AlbumFragment albumFragment;
-
-    private BottomSheetBehavior layoutBottomSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Button songs = findViewById(R.id.songs);
 
-        viewPager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tab_layout);
+        songs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SongActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        songFragment = new SongFragment();
-        albumFragment = new AlbumFragment();
+        Button albums = findViewById(R.id.albums);
 
-        tabLayout.setupWithViewPager(viewPager);
+        albums.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AlbumActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(getSupportFragmentManager(), 0);
-        categoryAdapter.addFragment(songFragment, "Songs");
-        categoryAdapter.addFragment(albumFragment, "Albums");
-        viewPager.setAdapter(categoryAdapter);
+        ToggleButton playPause = findViewById(R.id.play_pause);
+        playPause.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    buttonView.setBackgroundResource(R.drawable.ic_pause_circle_filled_black_24dp);
 
-        View bottomSheet = findViewById(R.id.bottom_sheet);
+                    Toast.makeText(buttonView.getContext(), "Paused", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    buttonView.setBackgroundResource(R.drawable.ic_play_circle_filled_black_24dp);
 
-        layoutBottomSheet = BottomSheetBehavior.from(bottomSheet);
-        layoutBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
+                    Toast.makeText(buttonView.getContext(), "Playing", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

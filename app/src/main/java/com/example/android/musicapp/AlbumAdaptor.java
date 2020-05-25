@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class AlbumAdaptor extends ArrayAdapter<Album> {
 
         Album currentAlbum = getItem(position);
 
-        AppCompatImageView albumCover = listItemView.findViewById(R.id.album_cover);
+        ImageView albumCover = listItemView.findViewById(R.id.album_cover);
         albumCover.setImageResource(currentAlbum.getCover());
 
         TextView albumNameTextView = listItemView.findViewById(R.id.album_name);
